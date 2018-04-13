@@ -2380,8 +2380,8 @@ struct lws_protocols {
 	 * be able to consume it all without having to return to the event
 	 * loop.  That is supported in lws.
 	 *
-	 * If .tx_packet_size is 0, this also controls how much may be sent at once
-	 * for backwards compatibility.
+	 * If .tx_packet_size is 0, this also controls how much may be sent at
+	 * once for backwards compatibility.
 	 */
 	unsigned int id;
 	/**< ignored by lws, but useful to contain user information bound
@@ -5723,6 +5723,19 @@ lws_dll_lws_remove(struct lws_dll_lws *_a)
 		___it = ___tmp; \
 	} \
 }
+
+struct lws_buflist;
+
+LWS_VISIBLE LWS_EXTERN int
+lws_buflist_append_segment(struct lws_buflist **head, uint8_t *buf, size_t len);
+LWS_VISIBLE LWS_EXTERN void
+lws_buflist_destroy_segment(struct lws_buflist **head);
+LWS_VISIBLE LWS_EXTERN size_t
+lws_buflist_next_segment_len(struct lws_buflist **head, uint8_t **buf);
+LWS_VISIBLE LWS_EXTERN int
+lws_buflist_use_segment(struct lws_buflist **head, size_t len);
+LWS_VISIBLE LWS_EXTERN void
+lws_buflist_destroy_all_segments(struct lws_buflist **head);
 
 /**
  * lws_ptr_diff(): helper to report distance between pointers as an int
